@@ -9,7 +9,7 @@ print(pcd)
 
 # downsize, 0.05 is proper for an outdoor scan 
 print("Downsample the point cloud with a voxel")
-downpcd = pcd.voxel_down_sample(voxel_size=0.01)
+downpcd = pcd.voxel_down_sample(voxel_size=0.1)
 o3d.visualization.draw_geometries([downpcd])
 
 # calc normal (optional for vivid visualization) 
@@ -22,7 +22,7 @@ print("showing noise removed points")
 cl, denoised_ind = downpcd.remove_statistical_outlier(nb_neighbors=6, std_ratio=2.0)
 denoised_cloud = downpcd.select_by_index(denoised_ind)
 noise_cloud = downpcd.select_by_index(denoised_ind, invert=True)
-noise_cloud.paint_uniform_color([1.0, 0, 0])
+noise_cloud.paint_uniform_color([0, 0, 0])
 o3d.visualization.draw_geometries([denoised_cloud, noise_cloud])
 
 # fit plane 
@@ -45,4 +45,3 @@ o3d.visualization.draw_geometries([plane_cloud, noneplane_cloud])
 # save the plane/non-plane points 
 o3d.io.write_point_cloud(filename + "_plane" + fileformat, plane_cloud)
 o3d.io.write_point_cloud(filename + "_nonplane" + fileformat, noneplane_cloud)
-
